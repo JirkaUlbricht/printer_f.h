@@ -3,6 +3,10 @@ Have you ever wanted to waste your precious paper? Do you want to immortalize yo
 
 Then printer_f.h is the header for you!
 
+## What does it do?
+
+Simple, printer_f.h will print out any printf(); output on paper 
+
 ## What is the point of this?
 
 I got bored
@@ -46,6 +50,10 @@ Use it to your heart's content, just don't claim it as your own :\)
 Už jste někdy chtěli vyplýtvat Váš drahocenný papír? Chcete zvěčnit své chyby při debugování? Chtěli jste, aby slovo print v printf(); reálně tisklo?
 
 Pak je printer_f.h header pro Vás!
+
+## Co to má vlastně dělat?
+
+Jednoduše, printer_f.h bude tisknou výstupy z printf(); přímo na papír
 
 ## Proč jsem to vůbec vytvořil?
 
