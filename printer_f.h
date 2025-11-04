@@ -1,5 +1,5 @@
-#ifndef PINTER_F_H
-#define PINTER_F_H
+#ifndef PRINTER_F_H
+#define PRINTER_F_H
 
 #include <stdio.h>
 #include <stdlib.h>
