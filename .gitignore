@@ -1,1 +1,4 @@
 .vscode/
+test.c
+PrintTest
+PrintTest.exe
