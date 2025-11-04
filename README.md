@@ -7,7 +7,7 @@ Then printer_f.h is the header for you!
 
 I got bored
 
-## But what hat about the environment?
+## But what about the environment?
 
 🤓
 
