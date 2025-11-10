@@ -174,10 +174,20 @@ static void printer_f_flush(void) {
         snprintf(outName, sizeof(outName), "printer_f_output.txt");
     }
 
+    char outPath[MAX_PATH];
+    DWORD gfp = GetFullPathNameA(outName, MAX_PATH, outPath, NULL);
+    if (gfp == 0 || gfp >= MAX_PATH) {
+        strncpy(outPath, outName, sizeof(outPath) - 1);
+        outPath[sizeof(outPath) - 1] = 0;
+    }
+    if (is_pdf) {
+        DeleteFileA(outPath);
+    }
+
     DOCINFOA di;
     di.cbSize = sizeof(di);
     di.lpszDocName = "printer_f document";
-    di.lpszOutput = is_pdf ? outName : NULL;
+    di.lpszOutput = is_pdf ? outPath : NULL;
     di.lpszDatatype = NULL;
     di.fwType = 0;
 
@@ -225,8 +235,6 @@ static void printer_f_flush(void) {
             timed_out = 1;
             break;
         }
-    }
-    while (pos < printer_f_size) {
         size_t start = pos;
         while (pos < printer_f_size && printer_f_buffer[pos] != '\n') {
             pos++;
@@ -272,7 +280,8 @@ static void printer_f_flush(void) {
     free(printerName);
     FreeLibrary(hspool);
     fwrite("Printing ",1,9,stdout);
-    fwrite(is_pdf ? "printer_f_output.pdf" : "printer_f_output.txt",1, is_pdf ? 20 : 20, stdout);
+    const char *msgName = is_pdf ? outPath : "printer_f_output.txt";
+    fwrite(msgName,1,strlen(msgName),stdout);
     fwrite("\n",1,1,stdout);
 
 #else
