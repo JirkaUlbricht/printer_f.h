@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
+// TODO: Make sure everything goes into one file and not n sperate file overwrites
+
 #ifdef _WIN32
 #include <windows.h>
 typedef BOOL (WINAPI *GetDefaultPrinterA_t)(LPSTR, LPDWORD);
@@ -18,6 +20,7 @@ typedef BOOL (WINAPI *TextOutA_t)(HDC, int, int, LPCSTR, int);
 #endif
 
 static void print_to_printer(const char *format, ...) {
+   
     char tmpfile[256];
     FILE *fp;
     va_list args;
@@ -28,29 +31,57 @@ static void print_to_printer(const char *format, ...) {
     va_copy(args2, args);
     int len = _vscprintf(format, args) + 1;
     char *buf = (char*)malloc((size_t)len);
+
     if (!buf) {
         va_end(args2);
         va_end(args);
         return;
     }
+
     vsnprintf(buf, (size_t)len, format, args2);
     va_end(args2);
     va_end(args);
 
     HMODULE hspool = LoadLibraryA("winspool.drv");
-    if (!hspool) { free(buf); return; }
+    if (!hspool) {
+        free(buf);
+        return;
+    }
     GetDefaultPrinterA_t pGetDefaultPrinterA = (GetDefaultPrinterA_t)GetProcAddress(hspool, "GetDefaultPrinterA");
-    if (!pGetDefaultPrinterA) { FreeLibrary(hspool); free(buf); return; }
+    if (!pGetDefaultPrinterA) {
+        FreeLibrary(hspool);
+        free(buf);
+        return;
+    }
 
     DWORD needed = 0;
     pGetDefaultPrinterA(NULL, &needed);
-    if (needed == 0) { FreeLibrary(hspool); free(buf); return; }
+    if (needed == 0) {
+        FreeLibrary(hspool);
+        free(buf);
+        return;
+    }
     char *printerName = (char*)malloc(needed);
-    if (!printerName) { FreeLibrary(hspool); free(buf); return; }
-    if (!pGetDefaultPrinterA(printerName, &needed)) { free(printerName); FreeLibrary(hspool); free(buf); return; }
+    if (!printerName) {
+        FreeLibrary(hspool);
+        free(buf);
+        return;
+    }
+    if (!pGetDefaultPrinterA(printerName, &needed)) {
+        free(printerName);
+        FreeLibrary(hspool);
+        free(buf);
+        return;
+    }
 
     HMODULE hgdi = LoadLibraryA("gdi32.dll");
-    if (!hgdi) { free(printerName); FreeLibrary(hspool); free(buf); return; }
+    if (!hgdi) {
+        free(printerName);
+        FreeLibrary(hspool);
+        free(buf);
+        return;
+    }
+
     CreateDCA_t  pCreateDCA  = (CreateDCA_t)GetProcAddress(hgdi, "CreateDCA");
     StartDocA_t  pStartDocA  = (StartDocA_t)GetProcAddress(hgdi, "StartDocA");
     StartPage_t  pStartPage  = (StartPage_t)GetProcAddress(hgdi, "StartPage");
@@ -58,7 +89,9 @@ static void print_to_printer(const char *format, ...) {
     EndPage_t    pEndPage    = (EndPage_t)GetProcAddress(hgdi, "EndPage");
     EndDoc_t     pEndDoc     = (EndDoc_t)GetProcAddress(hgdi, "EndDoc");
     DeleteDC_t   pDeleteDC   = (DeleteDC_t)GetProcAddress(hgdi, "DeleteDC");
+
     if (!pCreateDCA || !pStartDocA || !pStartPage || !pTextOutA || !pEndPage || !pEndDoc || !pDeleteDC) {
+   
         FreeLibrary(hgdi);
         free(printerName);
         FreeLibrary(hspool);
@@ -67,15 +100,19 @@ static void print_to_printer(const char *format, ...) {
     }
 
     HDC hdc = pCreateDCA("WINSPOOL", printerName, NULL, NULL);
+
     if (hdc) {
+   
         DOCINFOA di;
         di.cbSize = sizeof(di);
-        di.lpszDocName = "printer_f job";
+        di.lpszDocName = "printer_f_output";
         di.lpszOutput = NULL;
         di.lpszDatatype = NULL;
         di.fwType = 0;
         if (pStartDocA(hdc, &di) > 0) {
+   
             if (pStartPage(hdc) > 0) {
+   
                 pTextOutA(hdc, 100, 100, buf, (int)(len - 1));
                 pEndPage(hdc);
             }
@@ -92,9 +129,17 @@ static void print_to_printer(const char *format, ...) {
 #elif defined(__linux__) || defined(__APPLE__)
     snprintf(tmpfile, sizeof(tmpfile), "/tmp/printXXXXXX");
     int fd = mkstemp(tmpfile);
-    if (fd == -1) { perror("mkstemp"); return; }
+
+    if (fd == -1) {
+        perror("mkstemp"); return;
+    }
+
     fp = fdopen(fd, "w");
-    if (!fp) { perror("fdopen"); return; }
+
+    if (!fp) {
+        perror("fdopen"); return;
+    }
+
     va_start(args, format);
     vfprintf(fp, format, args);
     va_end(args);
