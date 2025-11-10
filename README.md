@@ -22,8 +22,8 @@ Simply add the printer_f.h file to your project just like any other header file 
 ## Supported OS
 
 - Windows
-- Linux
-- MacOS
+- Linux (Not tested)
+- MacOS (Not tested)
 
 ## Usage
 
@@ -70,8 +70,8 @@ Jednoduše. Stačí přidat soubor printer_f.h do Vašeho projektu stejně jako 
 ## Podporované OS
 
 - Windows
-- Linux
-- MacOS
+- Linux (Netestováno)
+- MacOS (Netestováno)
 
 ## Příklad použití
 
