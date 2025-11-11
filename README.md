@@ -21,11 +21,13 @@ Simply add the printer_f.h file to your project just like any other header file 
 
 ## Supported OS
 
-- Windows
-- Linux (Not tested)
-- MacOS (Not tested)
+- Windows (Print to PDF also supported)
+- Linux (Not tested, should work, no Print to PDF in WSL tho)
+- MacOS (Not tested, got no device to test it on)
 
 ## Usage
+
+### Hello ~~world~~ wasted toner
 
 ```c
 #include "printer_f.h"
@@ -33,6 +35,24 @@ Simply add the printer_f.h file to your project just like any other header file 
 
 int main() {
     printf("Hello wasted toner!");
+
+    return 0;
+}
+
+```
+
+### Simple example on how to lose your printing privileges anywhere (approx. 152 pages of A4 paper)
+
+```c
+#include "printer_f.h"
+#include <stdio.h>
+
+int main() {
+    int i = 1;
+    while (i <= 10000) {
+        printf("Line %d", i);
+        ++i;
+    }
 
     return 0;
 }
@@ -69,11 +89,13 @@ Jednoduše. Stačí přidat soubor printer_f.h do Vašeho projektu stejně jako 
 
 ## Podporované OS
 
-- Windows
-- Linux (Netestováno)
-- MacOS (Netestováno)
+- Windows (Print to PDF podpora)
+- Linux (Netestováno, ale mělo by to snad fungovat, Print to PDF ve WSLku nefunguje)
+- MacOS (Netestováno, nemám v čem)
 
 ## Příklad použití
+
+### Ahoj ~~světe~~ vyplýtvaný tonere
 
 ```c
 #include "printer_f.h"
@@ -81,6 +103,24 @@ Jednoduše. Stačí přidat soubor printer_f.h do Vašeho projektu stejně jako 
 
 int main() {
     printf("Ahoj vyplýtvaný tonere!");
+
+    return 0;
+}
+
+```
+
+### Jednoduchý příklad jak přijít privilegia k tisknutí kdekoli (cca. 152 ks A4)
+
+```c
+#include "printer_f.h"
+#include <stdio.h>
+
+int main() {
+    int i = 1;
+    while (i <= 10000) {
+        printf("Řádek %d", i);
+        ++i;
+    }
 
     return 0;
 }
