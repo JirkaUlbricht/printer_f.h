@@ -344,11 +344,11 @@ static void printer_f_flush(void) {
     FreeLibrary(hspool);
 
     if (is_pdf) {
-        fwrite("Printing ", 1, 9, stdout);
+        fwrite("Success: Printing ", 1, 9, stdout);
         fwrite(outPath, 1, strlen(outPath), stdout);
         fwrite("\n", 1, 1, stdout);
     } else {
-        fwrite("Printing printer_f_output.txt\n", 1, 30, stdout);
+        fwrite("Success: Printing printer_f_output.txt\n", 1, 30, stdout);
     }
 
 #else
@@ -365,7 +365,7 @@ static void printer_f_flush(void) {
         snprintf(cmd, sizeof(cmd), "lp '%s' 2>/dev/null", outName);
         int r = system(cmd);
         if (r != -1) {
-            fwrite("Printing printer_f_output.txt\n", 1, 30, stdout);
+            fwrite("Success: Printing printer_f_output.txt\n", 1, 30, stdout);
         } else {
             fwrite("printer_f: lp command failed\n", 1, 30, stderr);
         }
