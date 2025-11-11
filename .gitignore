@@ -1,5 +1,7 @@
 .vscode/
-test.c
+*.c
 PrintTest
-PrintTest.exe
+*.exe
 printer_f_output*.*
+Histogram.*
+Histogram
