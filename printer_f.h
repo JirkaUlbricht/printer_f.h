@@ -244,7 +244,7 @@ static void printer_f_flush(void) {
     size_t pos = 0;
     int timed_out = 0;
     while (pos < printer_f_size) {
-        if (GetTickCount() - t0 > 3000) {
+        if (GetTickCount() - t0 > 10000) {
             timed_out = 1;
             break;
         }
@@ -254,12 +254,12 @@ static void printer_f_flush(void) {
         }
         size_t len = pos - start;
         if (y + lineHeight > bottom) {
-            if (GetTickCount() - t0 > 3000) {
+            if (GetTickCount() - t0 > 10000) {
                 timed_out = 1;
                 break;
             }
             pEndPage(hdc);
-            if (GetTickCount() - t0 > 3000) {
+            if (GetTickCount() - t0 > 10000) {
                 timed_out = 1;
                 break;
             }
@@ -303,7 +303,7 @@ static void printer_f_flush(void) {
         goto cleanup_buf_only;
     }
 
-    if (GetTickCount() - t0 > 3000) {
+    if (GetTickCount() - t0 > 10000) {
         if (pAbortDoc) {
             pAbortDoc(hdc);
         }
@@ -317,7 +317,7 @@ static void printer_f_flush(void) {
 
     pEndPage(hdc);
 
-    if (GetTickCount() - t0 > 3000) {
+    if (GetTickCount() - t0 > 10000) {
         if (pAbortDoc) {
             pAbortDoc(hdc);
         }
