@@ -193,8 +193,8 @@ static void printer_f_flush(void) {
     di.lpszDatatype = NULL;
     di.fwType = 0;
 
-    if (GetTickCount() - t0 > 3000) {
-        fwrite("printer_f: timeout\n", 1, 19, stderr);
+    if (GetTickCount() - t0 > 10000) {
+        fwrite("printer_f: Operation took too long (timeout)\n", 1, 19, stderr);
         pDeleteDC(hdc);
         FreeLibrary(hgdi);
         free(printerName);
@@ -299,7 +299,7 @@ static void printer_f_flush(void) {
         FreeLibrary(hgdi);
         free(printerName);
         FreeLibrary(hspool);
-        fwrite("printer_f: timeout\n", 1, 19, stderr);
+        fwrite("printer_f: Operation took too long (timeout)\n", 1, 19, stderr);
         goto cleanup_buf_only;
     }
 
@@ -311,7 +311,7 @@ static void printer_f_flush(void) {
         FreeLibrary(hgdi);
         free(printerName);
         FreeLibrary(hspool);
-        fwrite("printer_f: timeout\n", 1, 19, stderr);
+        fwrite("printer_f: Operation took too long (timeout)\n", 1, 19, stderr);
         goto cleanup_buf_only;
     }
 
@@ -325,7 +325,7 @@ static void printer_f_flush(void) {
         FreeLibrary(hgdi);
         free(printerName);
         FreeLibrary(hspool);
-        fwrite("printer_f: timeout\n", 1, 19, stderr);
+        fwrite("printer_f: Operation took too long (timeout)\n", 1, 19, stderr);
         goto cleanup_buf_only;
     }
 
